@@ -4,36 +4,12 @@ export class TelegramService {
   constructor({ token, channelId, proxyAgentFactory, logger }) {
     this.logger = logger;
     this.channelId = channelId;
-
-    const proxyUrl = proxyAgentFactory.getProxyUrl();
     this.bot = new TelegramBot(token, {
-      polling: {
-        autoStart: true,
-        interval: 1000,
-        params: { timeout: 30 },
-      },
-      // node-telegram-bot-api internally uses request-like options.
-      // proxy URL is the most reliable way for this package.
+      polling: true,
       request: {
-        proxy: proxyUrl,
+        agent: proxyAgentFactory.getAgent(),
       },
     });
-
-    this.bot.on('polling_error', (err) => {
-      this.logger.error(`Telegram polling error: ${err.message}`);
-    });
-
-    this.bot.on('webhook_error', (err) => {
-      this.logger.error(`Telegram webhook error: ${err.message}`);
-    });
-
-    this.bot.on('error', (err) => {
-      this.logger.error(`Telegram bot error: ${err.message}`);
-    });
-
-    this.bot.getMe()
-      .then((me) => this.logger.info(`Telegram bot authorized as @${me.username}`))
-      .catch((err) => this.logger.error(`Telegram getMe failed: ${err.message}`));
   }
 
   getBot() {
