@@ -1,1 +1,22 @@
-
+{
+  "name": "x-telegram-forwarder",
+  "version": "1.0.0",
+  "description": "Telegram bot that scrapes X (Twitter) without official API and forwards tweets to a channel via mandatory proxy.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "agent-twitter-client": "^0.0.16",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "https-proxy-agent": "^7.0.6",
+    "lru-cache": "^10.4.3",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
