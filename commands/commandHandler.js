@@ -8,12 +8,6 @@ export class CommandHandler {
   }
 
   init() {
-    this.bot.on('message', (msg) => {
-      if (typeof msg.text === 'string' && msg.text.startsWith('/')) {
-        this.logger.info(`Incoming command: ${msg.text} from user=${msg.from?.id} chat=${msg.chat?.id}`);
-      }
-    });
-
     this.bot.onText(/^\/add\s+@?(\w{1,30})$/i, async (msg, match) => {
       await this.handleAdmin(msg, async () => {
         const username = match[1].toLowerCase();

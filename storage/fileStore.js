@@ -10,12 +10,10 @@ export class FileStore {
   async ensure() {
     const dir = path.dirname(this.filePath);
     await fs.mkdir(dir, { recursive: true });
-
     try {
       await fs.access(this.filePath);
     } catch {
-      // Important: no recursion through this.write() from ensure().
-      await fs.writeFile(this.filePath, JSON.stringify(this.initialValue, null, 2), 'utf-8');
+      await this.write(this.initialValue);
     }
   }
 
